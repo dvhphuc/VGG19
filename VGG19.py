@@ -41,7 +41,7 @@ class VGG19(nn.Module):
          # fully conected layers:
     def forward(self, x, training=True):
         x = F.relu(self.conv1_1(x))
-        x = F.relu(self,conv1_2(x))
+        x = F.relu(self.conv1_2(x))
         x = self.pool(x)
         x = F.relu(self.conv2_1(x))
         x = F.relu(self.conv2_2(x))
