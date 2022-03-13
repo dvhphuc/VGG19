@@ -4,19 +4,39 @@ import torch.nn.functional as F
 import torchvision
 # the VGG19 architecture
 
-class CNN(nn.Module):
-    def __init__(self,num_classes):
-        super(CNN,self).__init__()
+class VGG19(nn.Module):
+    def __init__(self,num_classes,in_channel):
+        super(VGG19,self).__init__()
         self.CNN_Layers = nn.Sequential(
-            nn.Conv2d(in_channel,,stride=1,kernel_size=3)
-            nn.Relu()
+            nn.Conv2d(in_channel,64,kernel_size=3,padding=1),
+            nn.Relu(inplace=False),
+            nn.MaxPool1d(kernel_size=2,stride=2),
+
+            nn.Conv2d(64,128,kernel_size=3,padding=1),
+            nn.Relu(inplace=False),
+            nn.MaxPool1d(kernel_size=2,stride=2),
+
+            nn.Conv2d(128,256,kernel_size=3,padding=1),
+            nn.Relu(inplace=False),
+            nn.MaxPool1d(kernel_size=2,stride=2),
+
+            nn.Conv2d(256,512,kernel_size=3,padding=1),
+            nn.Relu(inplace=False),
+            nn.MaxPool1d(kernel_size=2,stride=2),
+
+            nn.Conv2d(512,512,kernel_size=3,padding=1),
+            nn.Relu(inplace=False),
+            nn.MaxPool1d(kernel_size=2,stride=2),
         )
-        self.FC_Layers = nn.Sequential()
+        self.FC_Layers = nn.Sequential(
+
+        )
     
     def forward(self,x):
-        x = self.CNN_Layers(x)
+        
         return x
     
+'''
 class VGG19(nn.Module):
     def __init__(self, s_classes):
         super(VGG19, self).__init__()
@@ -56,7 +76,7 @@ class VGG19(nn.Module):
         x = F.relu(self.conv4_4(x))
         x = self.pool(x)
         return x
-
+'''
 def get_model(num_classes, in_channel):
     model = VGG19(num_classes, in_channel)
     return model
