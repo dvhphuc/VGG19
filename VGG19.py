@@ -9,33 +9,33 @@ class VGG19(nn.Module):
         super(VGG19,self).__init__()
         self.Conv_layers = nn.Sequential(
             nn.Conv2d(in_channel,64,kernel_size=3,padding=1),
-            nn.Relu(inplace=False),
-            nn.MaxPool1d(kernel_size=2,stride=2),
+            nn.ReLU(inplace=False),
+            nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(64,128,kernel_size=3,padding=1),
-            nn.Relu(inplace=False),
-            nn.MaxPool1d(kernel_size=2,stride=2),
+            nn.ReLU(inplace=False),
+            nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(128,256,kernel_size=3,padding=1),
-            nn.Relu(inplace=False),
-            nn.MaxPool1d(kernel_size=2,stride=2),
+            nn.ReLU(inplace=False),
+            nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(256,512,kernel_size=3,padding=1),
-            nn.Relu(inplace=False),
-            nn.MaxPool1d(kernel_size=2,stride=2),
+            nn.ReLU(inplace=False),
+            nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(512,512,kernel_size=3,padding=1),
-            nn.Relu(inplace=False),
-            nn.MaxPool1d(kernel_size=2,stride=2),
+            nn.ReLU(inplace=False),
+            nn.MaxPool2d(kernel_size=2,stride=2),
         )
         self.FC_Layers = nn.Sequential(
-            nn.Linear(25088,4096),
-            nn.Relu(),
+            nn.Linear(25088, 4096),
+            nn.ReLU(),
             nn.Dropout2d(0.5),
             nn.Linear(4096,4096),
-            nn.Relu(),
+            nn.ReLU(),
             nn.Dropout2d(0.5),          
-            nn.Liner(4096,out_features = self.num_classes)  
+            nn.Linear(4096,out_features = num_classes)  
         )
     
     def forward(self,x):
