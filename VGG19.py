@@ -7,39 +7,65 @@ import torchvision
 class VGG19(nn.Module):
     def __init__(self,num_classes,in_channel):
         super(VGG19,self).__init__()
-        self.Conv_layers = nn.Sequential(
-            nn.Conv2d(in_channel,64,kernel_size=3,padding=1),
+        self.num_classes = num_classes
+        self.in_channel = in_channel
+        #Convolutional layers
+        self.Conv_Layers = nn.Sequential(
+            nn.Conv2d(self.in_channel,64,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(64,64,kernel_size=3,padding=1),
             nn.ReLU(inplace=False),
             nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(64,128,kernel_size=3,padding=1),
             nn.ReLU(inplace=False),
+            nn.Conv2d(128,128,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
             nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(128,256,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(256,256,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(256,256,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(256,256,kernel_size=3,padding=1),
             nn.ReLU(inplace=False),
             nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(256,512,kernel_size=3,padding=1),
             nn.ReLU(inplace=False),
+            nn.Conv2d(512,512,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(512,512,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(512,512,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
             nn.MaxPool2d(kernel_size=2,stride=2),
 
             nn.Conv2d(512,512,kernel_size=3,padding=1),
             nn.ReLU(inplace=False),
+            nn.Conv2d(512,512,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(512,512,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
+            nn.Conv2d(512,512,kernel_size=3,padding=1),
+            nn.ReLU(inplace=False),
             nn.MaxPool2d(kernel_size=2,stride=2),
         )
+        #Fully connected layers
         self.FC_Layers = nn.Sequential(
-            nn.Linear(25088, 4096),
+            nn.Linear(25088, 4096), 
             nn.ReLU(),
             nn.Dropout2d(0.5),
             nn.Linear(4096,4096),
             nn.ReLU(),
             nn.Dropout2d(0.5),          
-            nn.Linear(4096,out_features = num_classes)  
+            nn.Linear(4096,out_features = self.num_classes)  
         )
     
     def forward(self,x):
-        x = self.Conv_layers(x)
+        x = self.Conv_Layers(x)
         x = x.view(x.size(0), -1)
         x = self.FC_Layers(x)
         return x
