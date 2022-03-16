@@ -58,10 +58,10 @@ class VGG19(nn.Module):
             nn.Linear(25088, 4096), 
             nn.ReLU(),
             nn.Dropout2d(0.5),
-            nn.Linear(4096,4096),
+            nn.Linear(4096, 4096),
             nn.ReLU(),
             nn.Dropout2d(0.5),          
-            nn.Linear(4096,out_features = self.num_classes)  
+            nn.Linear(4096, out_features = self.num_classes)  
         )
     
     def forward(self,x):
